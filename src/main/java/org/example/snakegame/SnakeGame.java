@@ -35,7 +35,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     public SnakeGame(int bordWidth, int bordHeight) {
         setConfigurations(bordWidth, bordHeight);
         snakeHead = new Tile(5, 5);
-        snakeBody = new ArrayList<Tile>();
+        snakeBody = new ArrayList<>();
         food = new Tile(10, 10);
         loadRecord();
         createScoreCount();

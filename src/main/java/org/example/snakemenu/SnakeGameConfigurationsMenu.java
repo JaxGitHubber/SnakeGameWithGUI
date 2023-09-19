@@ -1,7 +1,6 @@
 package org.example.snakemenu;
 
 import org.example.snakegame.Difficult;
-import org.example.snakegame.RecordScores;
 import org.example.snakegame.SnakeGame;
 
 import javax.swing.*;
@@ -55,14 +54,12 @@ public class SnakeGameConfigurationsMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             String difficult = ((JButton)e.getSource()).getText();
-            SnakeGame snakeGame;
-            RecordScores recordScores = new RecordScores();
             switch(difficult) {
-                case "ease" -> {snakeGame = new SnakeGame(140);
+                case "ease" -> {new SnakeGame(140);
                                 SnakeGame.difficult = Difficult.EASE;}
-                case "normal" -> {snakeGame = new SnakeGame(100);
+                case "normal" -> {new SnakeGame(100);
                                   SnakeGame.difficult = Difficult.NORMAL;}
-                case "hard" -> {snakeGame = new SnakeGame(50);
+                case "hard" -> {new SnakeGame(50);
                                 SnakeGame.difficult = Difficult.HARD;}
                 default -> {}
             }
@@ -73,11 +70,10 @@ public class SnakeGameConfigurationsMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             String difficult = ((JButton)e.getSource()).getText();
-            SnakeGame snakeGame;
             switch(difficult) {
-                case "blue snake" -> snakeGame = new SnakeGame((Color) Color.BLUE, (Color) Color.BLACK);
-                case "poison caterpillar" -> snakeGame = new SnakeGame((Color) Color.ORANGE, (Color) Color.RED);
-                case "worm" -> snakeGame = new SnakeGame((Color) Color.PINK, (Color) Color.DARK_GRAY);
+                case "blue snake" -> new SnakeGame(Color.BLUE, Color.BLACK);
+                case "poison caterpillar" -> new SnakeGame(Color.ORANGE, Color.RED);
+                case "worm" -> new SnakeGame(Color.PINK, Color.DARK_GRAY);
                 default -> {}
             }
         }
