@@ -1,4 +1,4 @@
-package org.example;
+package org.example.snakegame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +11,11 @@ import java.util.Random;
 
 import static java.awt.Color.BLACK;
 import static java.awt.Color.BLUE;
+import static org.example.snakegame.Difficult.*;
 
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
+    public static int bestRecord;
+    public static Difficult difficult = Difficult.NORMAL;
     private boolean gameOver = false;
     private int bordWidth;
     private int bordHeight;
@@ -34,7 +37,9 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         snakeHead = new Tile(5, 5);
         snakeBody = new ArrayList<Tile>();
         food = new Tile(10, 10);
+        loadRecord();
         createScoreCount();
+        createRecordCount();
         velocityX = 0;
         velocityY = 0;
         gameLoop = new Timer(speed, this);
@@ -53,6 +58,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawScore(g);
+        drawRecord(g);
         drawSnakeHead(g);
         drawSnakePart(g);
         drawFood(g);
@@ -67,6 +73,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         endGameIfSnakeOutOfField();
         repaint();
         if(gameOver) {
+            saveGameRecord();
             gameLoop.stop();
         }
     }
@@ -104,11 +111,27 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
     }
 
+    private void loadRecord() {
+        if(difficult == Difficult.EASE) {
+            bestRecord = new RecordScores().getBestRecordOnEaseDifficult();
+        } else if(difficult == NORMAL) {
+            bestRecord = new RecordScores().getBestRecordOnNormalDifficult();
+        }  else if(difficult == HARD) {
+            bestRecord = new RecordScores().getBestRecordOnHardDifficult();
+        }
+    }
+
     private void createScoreCount() {
         textFieldForCount = new JTextField(3);
         add(textFieldForCount);
         locateFood();
         textFieldForCount.setText(Integer.toString(countOfScore++));
+    }
+
+    private void createRecordCount() {
+        JTextField textFieldForRecord = new JTextField(3);
+        add(textFieldForRecord);
+        textFieldForRecord.setText(Integer.toString(bestRecord));
     }
 
     private void locateFood() {
@@ -118,7 +141,12 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     private void drawScore(Graphics g) {
         g.setFont(new Font("Times New Roman", Font.BOLD, 20));
-        g.drawString("Score:", 225, 23);
+        g.drawString("score:", 196, 23);
+    }
+
+    private void drawRecord(Graphics g) {
+        g.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        g.drawString(":record", 350, 23);
     }
 
     private void drawSnakeHead(Graphics g) {
@@ -222,6 +250,20 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private void endGameIfSnakeOutOfField() {
         if(snakeHead.x >= bordWidth/tileSize || snakeHead.x < 0 || snakeHead.y >= bordHeight/tileSize || snakeHead.y < 0) {
             gameOver = true;
+        }
+    }
+
+    private void saveGameRecord() {
+        RecordScores recordScores;
+        if(difficult == Difficult.EASE && countOfScore-- > bestRecord) {
+            recordScores = new RecordScores();
+            recordScores.addBestRecordOnEaseDifficult(countOfScore);
+        } else if(difficult == NORMAL && countOfScore-- > bestRecord) {
+            recordScores = new RecordScores();
+            recordScores.addBestRecordOnNormalDifficult(countOfScore);
+        } else  if(difficult == Difficult.HARD && countOfScore-- > bestRecord) {
+            recordScores = new RecordScores();
+            recordScores.addBestRecordOnHardDifficult(countOfScore);
         }
     }
 }

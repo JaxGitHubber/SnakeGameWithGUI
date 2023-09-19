@@ -1,4 +1,8 @@
-package org.example;
+package org.example.snakemenu;
+
+import org.example.snakegame.Difficult;
+import org.example.snakegame.RecordScores;
+import org.example.snakegame.SnakeGame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,10 +56,14 @@ public class SnakeGameConfigurationsMenu {
         public void actionPerformed(ActionEvent e) {
             String difficult = ((JButton)e.getSource()).getText();
             SnakeGame snakeGame;
+            RecordScores recordScores = new RecordScores();
             switch(difficult) {
-                case "ease" -> snakeGame = new SnakeGame(140);
-                case "normal" -> snakeGame = new SnakeGame(100);
-                case "hard" -> snakeGame = new SnakeGame(50);
+                case "ease" -> {snakeGame = new SnakeGame(140);
+                                SnakeGame.difficult = Difficult.EASE;}
+                case "normal" -> {snakeGame = new SnakeGame(100);
+                                  SnakeGame.difficult = Difficult.NORMAL;}
+                case "hard" -> {snakeGame = new SnakeGame(50);
+                                SnakeGame.difficult = Difficult.HARD;}
                 default -> {}
             }
         }

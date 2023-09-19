@@ -1,4 +1,4 @@
-package org.example;
+package org.example.snakegame;
 
 public class Tile {
     int x;

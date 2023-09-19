@@ -1,4 +1,6 @@
-package org.example;
+package org.example.snakemenu;
+
+import org.example.snakegame.SnakeGame;
 
 import javax.swing.*;
 import java.awt.*;
