@@ -1,5 +1,6 @@
 package org.example.app;
 
+import org.example.snakegame.RecordScores;
 import org.example.snakemenu.SnakeGameMenu;
 
 public class App {
