@@ -75,9 +75,9 @@ public class SnakeGameConfigurationsMenu {
             String difficult = ((JButton)e.getSource()).getText();
             SnakeGame snakeGame;
             switch(difficult) {
-                case "blue snake" -> snakeGame = new SnakeGame(Color.BLUE, Color.BLACK);
-                case "poison caterpillar" -> snakeGame = new SnakeGame(Color.ORANGE, Color.RED);
-                case "worm" -> snakeGame = new SnakeGame(Color.PINK, Color.DARK_GRAY);
+                case "blue snake" -> snakeGame = new SnakeGame((Color) Color.BLUE, (Color) Color.BLACK);
+                case "poison caterpillar" -> snakeGame = new SnakeGame((Color) Color.ORANGE, (Color) Color.RED);
+                case "worm" -> snakeGame = new SnakeGame((Color) Color.PINK, (Color) Color.DARK_GRAY);
                 default -> {}
             }
         }

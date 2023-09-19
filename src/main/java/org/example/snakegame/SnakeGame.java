@@ -32,8 +32,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private Random random;
     private static int speed = 100;
     private Timer gameLoop;
-    SnakeGame(int boardWidth, int boardHeight) {
-        setConfigurations(boardWidth, boardHeight);
+    public SnakeGame(int bordWidth, int bordHeight) {
+        setConfigurations(bordWidth, bordHeight);
         snakeHead = new Tile(5, 5);
         snakeBody = new ArrayList<Tile>();
         food = new Tile(10, 10);
@@ -46,13 +46,13 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         gameLoop.start();
     }
 
-    SnakeGame(int speed) {
-        this.speed = speed;
+    public SnakeGame(int speed) {
+        SnakeGame.speed = speed;
     }
 
-    SnakeGame(Color bodyColor, Color borderBodyColor) {
-        this.bodyColor = bodyColor;
-        this.borderBodyColor = borderBodyColor;
+    public SnakeGame(Color bodyColor, Color borderBodyColor) {
+        SnakeGame.bodyColor = bodyColor;
+        SnakeGame.borderBodyColor = borderBodyColor;
     }
 
     public void paintComponent(Graphics g) {
@@ -189,13 +189,13 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         g.fillRect(food.x  * tileSize+12, food.y * tileSize-4, 4, 10);
     }
 
-    private void drawBorders(Graphics g) {
+    /*private void drawBorders(Graphics g) {
         g.setColor(Color.DARK_GRAY);
         for(int i = 0; i < bordWidth/tileSize; i++) {
             g.drawLine(i * tileSize, 0, i * tileSize, bordHeight);
             g.drawLine(0, i * tileSize, bordWidth, i * tileSize);
         }
-    }
+    }*/
 
     private void eatFood() {
         if(collision(snakeHead, food)) {
