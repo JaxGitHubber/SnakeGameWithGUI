@@ -19,9 +19,9 @@ public class SnakeGameMenu {
         menu.setResizable(false);
         menu.setBackground(Color.DARK_GRAY);
         JPanel menuButtons = new JPanel(new GridLayout(3, 1));
+        addButtons(menuButtons);
         menuButtons.setBackground(Color.BLACK);
         menu.add(menuButtons);
-        addButtons(menuButtons);
     }
 
     private void addButtons(JPanel menuButtons) {

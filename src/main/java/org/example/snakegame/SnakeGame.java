@@ -16,9 +16,10 @@ import static org.example.snakegame.Difficult.*;
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     public static int bestRecord;
     public static Difficult difficult = Difficult.NORMAL;
+    public static boolean collisionForSnake = true;
     private boolean gameOver = false;
-    private int bordWidth;
-    private int bordHeight;
+    private int borderWidth;
+    private int borderHeight;
     private JTextField textFieldForCount;
     private int countOfScore = 0;
     private Tile snakeHead;
@@ -69,7 +70,9 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         eatFood();
         lengthenSnake();
         setDefaultStateOfSnakeHead();
-        endGameIfSnakePartInSnakeHead();
+        if(collisionForSnake) {
+            endGameIfSnakePartInSnakeHead();
+        }
         endGameIfSnakeOutOfField();
         repaint();
         if(gameOver) {
@@ -103,21 +106,26 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     }
 
     private void setConfigurations(int boardWidth, int boardHeight) {
-        this.bordWidth = boardWidth;
-        this.bordHeight = boardHeight;
-        setPreferredSize(new Dimension(this.bordWidth, this.bordHeight));
+        this.borderWidth = boardWidth;
+        this.borderHeight = boardHeight;
+        setPreferredSize(new Dimension(this.borderWidth, this.borderHeight));
         setBackground(new Color(325738));
         addKeyListener(this);
         setFocusable(true);
     }
 
     private void loadRecord() {
-        if(difficult == Difficult.EASE) {
-            bestRecord = new RecordScores().getBestRecordOnEaseDifficult();
-        } else if(difficult == NORMAL) {
-            bestRecord = new RecordScores().getBestRecordOnNormalDifficult();
-        }  else if(difficult == HARD) {
-            bestRecord = new RecordScores().getBestRecordOnHardDifficult();
+        if(collisionForSnake) {
+            if (difficult == Difficult.EASE) {
+                bestRecord = new RecordScores().getBestRecordOnEaseDifficult();
+            } else if (difficult == NORMAL) {
+                bestRecord = new RecordScores().getBestRecordOnNormalDifficult();
+            } else if (difficult == HARD) {
+                bestRecord = new RecordScores().getBestRecordOnHardDifficult();
+            }
+        }
+        if(!collisionForSnake) {
+            bestRecord = 0;
         }
     }
 
@@ -130,8 +138,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     private void createRecordCount() {
         JTextField textFieldForRecord = new JTextField(3);
-        add(textFieldForRecord);
         textFieldForRecord.setText(Integer.toString(bestRecord));
+        add(textFieldForRecord);
     }
 
     private void locateFood() {
@@ -210,8 +218,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     }
 
     private void placeFood() {
-        food.x = random.nextInt(bordWidth/tileSize);
-        food.y = random.nextInt(bordHeight/tileSize);
+        food.x = random.nextInt(borderWidth/tileSize);
+        food.y = random.nextInt(borderHeight/tileSize);
         for(Tile snakePart : snakeBody) {
             if(collision(snakePart, food)) {
                 placeFood();
@@ -248,22 +256,24 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     }
 
     private void endGameIfSnakeOutOfField() {
-        if(snakeHead.x >= bordWidth/tileSize || snakeHead.x < 0 || snakeHead.y >= bordHeight/tileSize || snakeHead.y < 0) {
+        if(snakeHead.x >= borderWidth/tileSize || snakeHead.x < 0 || snakeHead.y >= borderHeight/tileSize || snakeHead.y < 0) {
             gameOver = true;
         }
     }
 
     private void saveGameRecord() {
-        RecordScores recordScores;
-        if(difficult == Difficult.EASE && countOfScore-- > bestRecord) {
-            recordScores = new RecordScores();
-            recordScores.addBestRecordOnEaseDifficult(countOfScore);
-        } else if(difficult == NORMAL && countOfScore-- > bestRecord) {
-            recordScores = new RecordScores();
-            recordScores.addBestRecordOnNormalDifficult(countOfScore);
-        } else  if(difficult == Difficult.HARD && countOfScore-- > bestRecord) {
-            recordScores = new RecordScores();
-            recordScores.addBestRecordOnHardDifficult(countOfScore);
+        if(collisionForSnake) {
+            RecordScores recordScores;
+            if (difficult == Difficult.EASE && countOfScore-- > bestRecord) {
+                recordScores = new RecordScores();
+                recordScores.addBestRecordOnEaseDifficult(countOfScore);
+            } else if (difficult == NORMAL && countOfScore-- > bestRecord) {
+                recordScores = new RecordScores();
+                recordScores.addBestRecordOnNormalDifficult(countOfScore);
+            } else if (difficult == Difficult.HARD && countOfScore-- > bestRecord) {
+                recordScores = new RecordScores();
+                recordScores.addBestRecordOnHardDifficult(countOfScore);
+            }
         }
     }
 }

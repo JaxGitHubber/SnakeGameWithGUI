@@ -11,15 +11,16 @@ public class SnakeGameConfigurationsMenu {
     public void createConfigurationsMenu() {
         JFrame configurationsMenu = new JFrame("Snake game -configurations");
         configurationsMenu.setVisible(true);
-        configurationsMenu.setSize(250, 400);
+        configurationsMenu.setSize(250, 500);
         configurationsMenu.setLocationRelativeTo(null);
         configurationsMenu.setResizable(false);
         configurationsMenu.setBackground(Color.DARK_GRAY);
-        JPanel menuButtons = new JPanel(new GridLayout(8, 1));
+        JPanel menuButtons = new JPanel(new GridLayout(11, 1));
         menuButtons.setBackground(Color.WHITE);
         configurationsMenu.add(menuButtons);
         addDifficultConfigurations(menuButtons);
         addSkinsConfigurations(menuButtons);
+        addCollisionConfigurations(menuButtons);
     }
 
     private static void addDifficultConfigurations(JPanel menuButtons) {
@@ -50,6 +51,17 @@ public class SnakeGameConfigurationsMenu {
         menuButtons.add(skinWorm);
     }
 
+    private static void addCollisionConfigurations(JPanel menuButtons) {
+        JLabel setCollision = new JLabel("> set collision <");
+        JButton collisionForSnakeOn = new JButton(new CollisionAction());
+        collisionForSnakeOn.setText("collision for snake - on");
+        JButton collisionForSnakeOff = new JButton(new CollisionAction());
+        collisionForSnakeOff.setText("collision for snake - off");
+        menuButtons.add(setCollision);
+        menuButtons.add(collisionForSnakeOn);
+        menuButtons.add(collisionForSnakeOff);
+    }
+
     static class DifficultGameAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -74,6 +86,18 @@ public class SnakeGameConfigurationsMenu {
                 case "blue snake" -> new SnakeGame(Color.BLUE, Color.BLACK);
                 case "poison caterpillar" -> new SnakeGame(Color.ORANGE, Color.RED);
                 case "worm" -> new SnakeGame(Color.PINK, Color.DARK_GRAY);
+                default -> {}
+            }
+        }
+    }
+
+    static class CollisionAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String collision = ((JButton)e.getSource()).getText();
+            switch(collision) {
+                case "collision for snake - on" -> SnakeGame.collisionForSnake = true;
+                case "collision for snake - off" -> SnakeGame.collisionForSnake = false;
                 default -> {}
             }
         }
