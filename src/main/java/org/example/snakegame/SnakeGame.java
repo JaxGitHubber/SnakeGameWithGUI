@@ -69,7 +69,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         eatFood();
         lengthenSnake();
-        setDefaultStateOfSnakeHead();
+        setNewPositionOfSnakeHead();
         if(collisionForSnake) {
             endGameIfSnakePartInSnakeHead();
         }
@@ -241,7 +241,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    private void setDefaultStateOfSnakeHead() {
+    private void setNewPositionOfSnakeHead() {
         snakeHead.x += velocityX;
         snakeHead.y += velocityY;
     }
